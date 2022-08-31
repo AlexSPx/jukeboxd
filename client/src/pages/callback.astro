@@ -1,0 +1,8 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LoginRedirect from "../components/widgets/LoginRedirect"
+---
+
+<Layout title="logging in">
+        <LoginRedirect client:only="preact"/>
+</Layout>

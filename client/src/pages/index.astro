@@ -1,0 +1,15 @@
+---
+import SpotifyLogin from '../components/widgets/spotifylogin.astro';
+import Layout from '../layouts/Layout.astro';
+import "../styles/text.css"
+---
+
+<Layout title="Welcome to Astro.">
+	<div class="flex flex-col items-center">
+		<div class="flex flex-col text-5xl items-center font-bold mt-32">
+			<h2><span class="rainbow">Review</span> songs you've listened.</h2>
+			<h2><span class="rainbow">Discover</span> new songs.</h2>
+		</div>
+		<SpotifyLogin client:idle/>
+	</div>
+</Layout>
