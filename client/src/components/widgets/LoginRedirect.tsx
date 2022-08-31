@@ -9,7 +9,7 @@ export default function LoginRedirect() {
     const fetchUser = async () => {
       const r = await fetch(`http://localhost:8000/api/login/${access_token}`);
 
-      console.log(r);
+      console.log(access_token);
     };
 
     fetchUser();
