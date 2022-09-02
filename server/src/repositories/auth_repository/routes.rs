@@ -2,6 +2,8 @@ use std::fmt::format;
 
 use actix_web::{get, HttpResponse, web};
 
+use crate::models::spotify_models::SpotifyMe;
+
 
 #[get("/login/{access_token}")]
 pub async fn login(access_token: web::Path<String>) -> HttpResponse {
@@ -16,15 +18,19 @@ pub async fn login(access_token: web::Path<String>) -> HttpResponse {
     let res = client.get("https://api.spotify.com/v1/me")
         .header(reqwest::header::AUTHORIZATION, format!("Bearer {}", &access_token.as_str()))
         .send()
-        .await;
+        .await
+        .unwrap();
 
-    match res {
-        Ok(mut response) => {
-            let body = response.text().await.expect("no body");
-            print!("{}", body)
+    match res.status() {
+        reqwest::StatusCode::OK => {
+            let user =  res.json::<SpotifyMe>().await.unwrap();
+
         }
-        Err(_) => {
-            println!("Couldn't fetch user");
+        reqwest::StatusCode::UNAUTHORIZED => {
+
+        }
+        other => {
+
         }
     }
 

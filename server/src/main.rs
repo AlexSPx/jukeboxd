@@ -6,6 +6,7 @@ use diesel::{r2d2::ConnectionManager, PgConnection};
 use dotenv::dotenv;
 
 mod repositories;
+mod models;
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
