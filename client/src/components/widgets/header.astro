@@ -1,15 +1,19 @@
 ---
 import ThemeToggle from '../ToggleTheme';
 import Logo from './logo.astro';
-import UserHeader from './UserHeader.astro';
+import UserHeader from './UserHeader';
 ---
 
-<div class="w-full container mx-auto p-3 h-16">
+<header class="w-full container mx-auto p-3 h-16">
     <div class="w-full flex items-center justify-between">
       <h1 class="flex items-center no-underline hover:no-underline font-bold text-2xl lg:text-4xl">
-        <Logo />
+        <a href="/">
+          <Logo />
+        </a>
       </h1>
-      <UserHeader />
-      <ThemeToggle client:idle/>
+      <section class="flex">
+        <UserHeader client:idle/>
+        <ThemeToggle client:idle/>
+      </section>
     </div>
-</div>
+  </header>

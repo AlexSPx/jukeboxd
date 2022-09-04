@@ -19,7 +19,10 @@ export default function LoginRedirect() {
         }, 3000);
         return;
       }
-      setUser(user);
+
+      setUser(user)
+      window.location.href = "/home";
+      
     };
 
     fetchUser();

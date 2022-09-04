@@ -6,3 +6,7 @@ export const user = atom<SpotifyUser | null>(null);
 export function setUser(spotifyUser: SpotifyUser) {
   user.set(spotifyUser);
 }
+
+export function getUser(): SpotifyUser | null {
+  return user.get()
+}
