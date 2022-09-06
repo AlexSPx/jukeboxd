@@ -8,5 +8,5 @@ export function setUser(spotifyUser: SpotifyUser) {
 }
 
 export function getUser(): SpotifyUser | null {
-  return user.get()
+  return user.get();
 }

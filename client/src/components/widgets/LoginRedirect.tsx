@@ -1,7 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
 import { parse } from "query-string";
-import spotifyApi from "../../SpotifyApi";
-import { setUser } from "../../SpotifyApi/store";
 
 export default function LoginRedirect() {
   const [error, setError] = useState(false);
@@ -10,22 +8,22 @@ export default function LoginRedirect() {
     const { access_token } = parse(window.location.hash);
     if (typeof access_token !== "string") return;
 
-    const fetchUser = async () => {
-      const user = await spotifyApi.fetchUser(access_token);
-      if (!user) {
-        setError(true);
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 3000);
-        return;
-      }
+    const login = async () => {
+      const res = await fetch(
+        `http://localhost:8000/api/login/${access_token}`,
+        {
+          credentials: "include",
+        }
+      );
 
-      setUser(user)
-      window.location.href = "/home";
-      
+      if (res.status === 200) window.location.href = "/home";
+      else {
+        setError(true);
+        window.location.href = "/";
+      }
     };
 
-    fetchUser();
+    login();
   }, []);
 
   return (

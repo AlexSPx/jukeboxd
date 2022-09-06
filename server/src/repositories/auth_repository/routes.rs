@@ -1,8 +1,6 @@
-use std::fmt::format;
+use actix_web::{get, HttpResponse, web, cookie::Cookie, http::header::ContentType};
 
-use actix_web::{get, HttpResponse, web};
-
-use crate::models::spotify_models::SpotifyMe;
+use crate::models::{spotify_models::SpotifyMe, errors::SpotifyError};
 
 
 #[get("/login/{access_token}")]
@@ -24,15 +22,25 @@ pub async fn login(access_token: web::Path<String>) -> HttpResponse {
     match res.status() {
         reqwest::StatusCode::OK => {
             let user =  res.json::<SpotifyMe>().await.unwrap();
-
+            
+            let auth_cookie = Cookie::build("access_token", &*access_token)
+                .secure(true)
+                .http_only(true)
+                .path("/")
+                .finish();
+            
+            HttpResponse::Ok()
+                .cookie(auth_cookie)
+                .content_type(ContentType::json())    
+                .json(user)
+                
         }
-        reqwest::StatusCode::UNAUTHORIZED => {
-
-        }
-        other => {
-
+        _ => {
+            let err = res.json::<SpotifyError>().await.unwrap();
+            
+            HttpResponse::Unauthorized()
+                .content_type(ContentType::json())
+                .json(err)
         }
     }
-
-    HttpResponse::Ok().body("data")
 }
